@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Retrieving data using Ajax+jQuery</title>
+  <script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <style>
+    #answer1 {
+      width: 10%;
+      height: 40px;
+      background-color: yellow;
+      border: 1px solid black
+    }
+
+    #answer2 {
+      width: 10%;
+      height: 40px;
+      background-color: red;
+      border: 1px solid black
+    }
+
+  </style>
+
+<!-- <h2 align="center">Manage checkout details</h2>
+<table border="1" align="center">
+   <tr>
+       <td> <input type="button" id="display" value="Display sorted checkout data" /> </td>
+   </tr>
+</table>
+<div id="responsecontainer" align="left">
+    <div id="answer1"></div>
+    <br>
+    <div id="answer2"></div>
+</div> -->
+</body>
+
+<div id="demo"><h2>Find user with most checkouts</h2></div>
+
+<button type="button" onclick="getMostCheckout()">Click here to find top user </button>
+
+<div id="demo1"><h2>See top month for movie checkouts</h2></div>
+
+<button type="button" onclick="getMostCheckout()">Click here to find top month</button>
+
+ <script type="text/javascript">
+
+// Write a function where it accepts a number and print it to screen with the answers //
+
+
+
+$.get("http://159.203.175.239:8080/checkouts.txt", function(dataCheckOuts){
+
+      function getMostCheckout (num) {
+        var c = dataCheckOuts.split("\n");
+        var userArray = [];
+        var user = {};
+        var largest= 0;
+        
+          for(var i = 0; i < c.length; i++) {
+            userArray.push(c[i].split(" ")[num]);
+          }
+
+          for (var j=0; j < userArray.length; j++){
+            var current = userArray[j];
+              if (user[current] === undefined) {
+                user[current] = 1;
+              } else {
+                user[current] ++;
+              }
+          }          
+
+
+        var max = 0;
+        var maxUser;
+
+          for (var k in user) {
+              if (user[k] > max){
+                max = user[k];
+                maxUser = k;
+              }
+          
+          }
+
+          return maxUser;
+        }
+
+    var highestUser =  getMostCheckout(0); 
+    var greatestMonth = getMostCheckout(1);
+
+console.log(highestUser, greatestMonth);
+  // document.getElementById("answer1").innerHTML = highestUser;
+  // document.getElementById("answer2").innerHTML = greatestMonth;
+
+
+});
+
+  document.getElementById("demo").innerHTML = highestUser;
+  document.getElementById("demo1").innerHTML = greatestMonth;
+
+</script>
+
+
+</html>
