@@ -38,17 +38,13 @@
 
 <div id="demo"><h2>Find user with most checkouts</h2></div>
 
-<button type="button" onclick="getMostCheckout()">Click here to find top user </button>
+<button type="button" onclick="var highestUser">Click here to find top user </button>
 
 <div id="demo1"><h2>See top month for movie checkouts</h2></div>
 
-<button type="button" onclick="getMostCheckout()">Click here to find top month</button>
+<button type="button" onclick="var greatestMonth">Click here to find top month</button>
 
  <script type="text/javascript">
-
-// Write a function where it accepts a number and print it to screen with the answers //
-
-
 
 $.get("http://159.203.175.239:8080/checkouts.txt", function(dataCheckOuts){
 
@@ -90,14 +86,14 @@ $.get("http://159.203.175.239:8080/checkouts.txt", function(dataCheckOuts){
     var greatestMonth = getMostCheckout(1);
 
 console.log(highestUser, greatestMonth);
-  // document.getElementById("answer1").innerHTML = highestUser;
-  // document.getElementById("answer2").innerHTML = greatestMonth;
+  document.getElementById("demo").innerHTML = highestUser;
+  document.getElementById("demo1").innerHTML = greatestMonth;
 
 
 });
 
-  document.getElementById("demo").innerHTML = highestUser;
-  document.getElementById("demo1").innerHTML = greatestMonth;
+  // document.getElementById("demo").innerHTML = highestUser;
+  // document.getElementById("demo1").innerHTML = greatestMonth;
 
 </script>
 
