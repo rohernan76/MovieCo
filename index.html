@@ -1,103 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Retrieving data using Ajax+jQuery</title>
-  <script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
+	<title>MovieCo</title>
+	<script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <style>
-    #answer1 {
-      width: 10%;
-      height: 40px;
-      background-color: yellow;
-      border: 1px solid black
-    }
-
-    #answer2 {
-      width: 10%;
-      height: 40px;
-      background-color: red;
-      border: 1px solid black
-    }
-
-  </style>
-
-<!-- <h2 align="center">Manage checkout details</h2>
-<table border="1" align="center">
-   <tr>
-       <td> <input type="button" id="display" value="Display sorted checkout data" /> </td>
-   </tr>
-</table>
-<div id="responsecontainer" align="left">
-    <div id="answer1"></div>
-    <br>
-    <div id="answer2"></div>
-</div> -->
-</body>
-
 <div id="demo"><h2>Find user with most checkouts</h2></div>
 
-<button type="button" id="userbtn">Click here to find top user </button>
+<button type="button" onclick="maxUser">Click here to find top user </button>
 
-<div id="demo1"><h2>See top month for movie checkouts</h2></div>
+<!-- <div id="demo1"><h2>See top month for movie checkouts</h2></div>
 
-<button type="button" onclick="greatestMonth">Click here to find top month</button>
+<button type="button" onclick=" ">Click here to find top month</button> -->
 
- <script type="text/javascript">
+	 <script type="text/javascript">
 
-$.get("http://159.203.175.239:8080/checkouts.txt", function(dataCheckOuts){
+	 // initUser();
 
-      function getMostCheckout (num) {
-        var c = dataCheckOuts.split("\n");
-        var userArray = [];
-        var user = {};
-        var largest= 0;
-        
-          for(var i = 0; i < c.length; i++) {
-            userArray.push(c[i].split(" ")[num]);
-          }
+	function initUser () {
+		$.get("http://159.203.175.239:8080/checkouts.txt", getHighest);
+	}
 
-          for (var j=0; j < userArray.length; j++){
-            var current = userArray[j];
-              if (user[current] === undefined) {
-                user[current] = 1;
-              } else {
-                user[current] ++;
-              }
-          }          
+	// getHighest();
 
+	function getHighest (data) {
+		var users = cleanData (data, 0);
+		var max = findMax (users);
 
-        var max = 0;
-        var maxUser;
+		return document.getElementById("demo").innerHTML = maxUser;
+	}
 
-          for (var k in user) {
-              if (user[k] > max){
-                max = user[k];
-                maxUser = k;
-              }
-          
-          }
+	function cleanData (data, num) {
+		// setting up our data for use
+		var c = getHighest(data).split("\n");
+		var userArray = [];
 
-          return   document.getElementById("demo").innerHTML = maxUser;
-        }
+		// making array of arrays ex. [[user], [user]]
+		for(var i = 0; i < c.length; i++) {
+			userArray.push(c[i].split(" ")[num]);
+		}
+		console.log(userArray);
+		// return userArray;
+	}
 
-        document.getElementById("userbtn").onclick = getMostCheckout;
+	findMax();
 
-    // var highestUser =  getMostCheckout(0); 
-    // var greatestMonth = getMostCheckout(1);
+	function findMax (data) {
+		//counting
+		var user = {};
+		var largest= 0;
+		var userArray = [];
 
-// console.log(highestUser, greatestMonth);
+		for (var i=0; i < userArray.length; i++){
+			var current = userArray[i];
+			if (user[current] === undefined) {
+			user[current] = 1;
+			} else {
+			user[current] ++;
+			}
+		}
 
-//   document.getElementById("demo1").innerHTML = greatestMonth;
+		var max = 0;
+		var maxUser;
 
+		for (var j in user) {
+			if (user[j] > max){
+				max = user[j];
+				maxUser = j;
+			}
+		}
 
-});
+		return maxUser;
+	}
 
-  // document.getElementById("demo").innerHTML = highestUser;
-  // document.getElementById("demo1").innerHTML = greatestMonth;
-
-</script>
-
-
+	 </script>
+</body>
 </html>
