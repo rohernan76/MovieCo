@@ -6,63 +6,52 @@
 </head>
 <body>
 
-<!-- <div id="demo"><h2>Find user with most checkouts</h2></div> -->
-<!-- <button type="button" onclick="initUser">Click here to find top user </button> -->
-<!-- <div id="demo1"><h2>See top month for movie checkouts</h2></div>
-<button type="button" onclick=" ">Click here to find top month</button> -->
+<div id="demo"><h2>Find user with most checkouts</h2></div>
+<button type="button" onclick="initUser()">Click here to find top user </button>
+<div id="demo1"><h2>See top month for movie checkouts</h2></div>
+<button type="button" onclick=" ">Click here to find top month</button>
 
-<p id="demo"></p>
+<!-- <p id="demo"></p>
 <p id="demo1"></p>
-
+ -->
 	 <script type="text/javascript">
-
-// Sarah's comments: 
-// • You have to return something in each function!
-// • In the clean data function you didn't return the new data! 
-// • Return user array and don't call find max outside of the init function 
-// • The onclick should be the init function as well (:
-// • Not the max user
 
 	function initUser () {
 		$.get("http://159.203.175.239:8080/checkouts.txt", getHighest);
-	// document.getElementById("demo").innerHTML = initUser();
-	// Robert: I am a little confused what exactly I need to return here for the initUser function
 	}
-	debugger;
+
 
 	function getHighest (data) {
+
 		var users = cleanData (data, 0);
 		var max = findMax (users);
 
-		return data;
-		// Robert: Again, I am not sure what I should be returning here. Is it 'data' or something else?
+		document.getElementById("demo").innerHTML = max;
 	}
 
 	document.getElementById("demo1").innerHTML = getHighest();
 	
 	function cleanData (data, num) {
 		// setting up our data for use
-		var c = getHighest(data).split("\n");
+		console.log(data);
+		var c = data.toString().split("\n");
 		var userArray = [];
 
 		// making array of arrays ex. [[user], [user]]
 		for(var i = 0; i < c.length; i++) {
 			userArray.push(c[i].split(" ")[num]);
 		}
-		return data + num;
-		// Robert: Returning 'data' and 'num' here doesn't look right to me. What exactly should I return here?
+		return userArray;
 	}
 
-	findMax();
 
 	function findMax (data) {
 		//counting
 		var user = {};
 		var largest= 0;
-		var userArray = [];
 
-		for (var i=0; i < userArray.length; i++){
-			var current = userArray[i];
+		for (var i=0; i < data.length; i++){
+			var current = data[i];
 			if (user[current] === undefined) {
 			user[current] = 1;
 			} else {
@@ -79,9 +68,9 @@
 				maxUser = j;
 			}
 		}
+		console.log(maxUser);
 
 		return maxUser;
-		// Robert: Could you tell me if 'return maxUser' here is correct? If not, what can I try differently?
 	}
 
 	 </script>
