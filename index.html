@@ -6,34 +6,37 @@
 </head>
 <body>
 
-<div id="demo"><h2>Find user with most checkouts</h2></div>
+<div id="demo"><h2>Find <strong>USER</strong> with most checkouts</h2></div>
 <button type="button" onclick="initUser()">Click here to find top user </button>
-<div id="demo1"><h2>See top month for movie checkouts</h2></div>
-<button type="button" onclick=" ">Click here to find top month</button>
+
+<div id="demo1"><h2>See <strong>MONTH</strong> with most movie checkouts</h2></div>
+<button type="button" onclick="initMonth()">Click here to find month with most checkouts </button>
+
+<div id="demo2"><h2>See title of <strong>MOVIE</strong> most checked out</h2></div>
+<button type="button" onclick="initMovie()">Click here to find top month</button>
 
 <!-- <p id="demo"></p>
-<p id="demo1"></p>
- -->
+<p id="demo1"></p> -->
+
 	 <script type="text/javascript">
 
+// Find user with the most checkouts 
+
 	function initUser () {
-		$.get("http://159.203.175.239:8080/checkouts.txt", getHighest);
+		$.get("http://159.203.175.239:8080/checkouts.txt", getHighestUser);
 	}
 
-
-	function getHighest (data) {
-
+	function getHighestUser (data) {
 		var users = cleanData (data, 0);
 		var max = findMax (users);
 
 		document.getElementById("demo").innerHTML = max;
 	}
 
-	document.getElementById("demo1").innerHTML = getHighest();
+	document.getElementById("demo").innerHTML = getHighestUser();
 	
 	function cleanData (data, num) {
 		// setting up our data for use
-		console.log(data);
 		var c = data.toString().split("\n");
 		var userArray = [];
 
@@ -43,7 +46,6 @@
 		}
 		return userArray;
 	}
-
 
 	function findMax (data) {
 		//counting
@@ -72,6 +74,66 @@
 
 		return maxUser;
 	}
+
+// Find month with the most checkouts 
+
+	function initMonth () {
+		$.get("http://159.203.175.239:8080/checkouts.txt", getHighestMonth);
+	}
+
+	function getHighestMonth (data) {
+		var month = cleanData (data, 1);
+		var max = findMax (month);
+
+		document.getElementById("demo1").innerHTML = max;
+	}
+
+	document.getElementById("demo1").innerHTML = getHighestMonth();
+	
+	function cleanData (data, num) {
+		// setting up our data for use
+		var c = data.toString().split("\n");
+		var monthArr = [];
+
+		// making array of arrays ex. [[user], [user]]
+		for(var i = 0; i < c.length; i++) {
+			monthArr.push(c[i].split(" ")[num]);
+		}
+		return monthArr;
+	}
+
+// Find title of the movie(s) that was the most checked out
+
+	function initMovie () {
+		$.get("http://159.203.175.239:8080/movies.txt", getMovie);
+	}
+
+	console.log(getMovie);
+	
+	function getMovie (data) {
+		var users = cleanMovieData (data, 0);
+
+		// document.getElementById("demo1").innerHTML = max;
+	}
+
+	document.getElementById("demo2").innerHTML = getMovie();
+
+	function cleanMovieData (data) {
+		console.log(data);
+		var c = data.toString().split("\n");
+		var userArray = [];
+
+		// making array of arrays ex. [[user], [user]]
+		for(var i = 0; i < c.length; i++) {
+			userArray.push(c[i].split(" ")[num]);
+		}
+		return userArray;
+	}
+	 
+	function topUserMovie (data) {
+
+	}
+
 
 	 </script>
 </body>
